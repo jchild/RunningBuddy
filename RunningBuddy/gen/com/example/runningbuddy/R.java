@@ -211,39 +211,17 @@ containing a value of this type.
         public static final int common_signin_btn_text_pressed_dark=0x7f020016;
         public static final int common_signin_btn_text_pressed_light=0x7f020017;
         public static final int gradient_background=0x7f020018;
-        public static final int ic_action_attach=0x7f020019;
-        public static final int ic_action_call=0x7f02001a;
-        public static final int ic_action_copy=0x7f02001b;
-        public static final int ic_action_cut=0x7f02001c;
-        public static final int ic_action_delete=0x7f02001d;
-        public static final int ic_action_done=0x7f02001e;
-        public static final int ic_action_edit=0x7f02001f;
-        public static final int ic_action_locate=0x7f020020;
-        public static final int ic_action_mail=0x7f020021;
-        public static final int ic_action_mail_add=0x7f020022;
-        public static final int ic_action_microphone=0x7f020023;
-        public static final int ic_action_overflow=0x7f020024;
-        public static final int ic_action_paste=0x7f020025;
-        public static final int ic_action_photo=0x7f020026;
-        public static final int ic_action_refresh=0x7f020027;
-        public static final int ic_action_search=0x7f020028;
-        public static final int ic_action_select_all=0x7f020029;
-        public static final int ic_action_send=0x7f02002a;
-        public static final int ic_action_settings=0x7f02002b;
-        public static final int ic_action_share=0x7f02002c;
-        public static final int ic_action_star=0x7f02002d;
-        public static final int ic_action_user=0x7f02002e;
-        public static final int ic_action_user_add=0x7f02002f;
-        public static final int ic_action_video=0x7f020030;
-        public static final int ic_back=0x7f020031;
-        public static final int ic_exit=0x7f020032;
-        public static final int ic_launcher=0x7f020033;
-        public static final int ic_map=0x7f020034;
-        public static final int ic_plusone_medium_off_client=0x7f020035;
-        public static final int ic_plusone_small_off_client=0x7f020036;
-        public static final int ic_plusone_standard_off_client=0x7f020037;
-        public static final int ic_plusone_tall_off_client=0x7f020038;
-        public static final int ic_user=0x7f020039;
+        public static final int ic_action_search=0x7f020019;
+        public static final int ic_action_settings=0x7f02001a;
+        public static final int ic_back=0x7f02001b;
+        public static final int ic_exit=0x7f02001c;
+        public static final int ic_launcher=0x7f02001d;
+        public static final int ic_map=0x7f02001e;
+        public static final int ic_plusone_medium_off_client=0x7f02001f;
+        public static final int ic_plusone_small_off_client=0x7f020020;
+        public static final int ic_plusone_standard_off_client=0x7f020021;
+        public static final int ic_plusone_tall_off_client=0x7f020022;
+        public static final int ic_user=0x7f020023;
     }
     public static final class id {
         public static final int action_exit=0x7f050009;
@@ -264,13 +242,15 @@ containing a value of this type.
     public static final class layout {
         public static final int activity_main=0x7f030000;
         public static final int activity_map=0x7f030001;
-        public static final int activity_splash=0x7f030002;
-        public static final int activity_user=0x7f030003;
+        public static final int activity_settings=0x7f030002;
+        public static final int activity_splash=0x7f030003;
+        public static final int activity_user=0x7f030004;
     }
     public static final class menu {
         public static final int main=0x7f0a0000;
         public static final int map=0x7f0a0001;
-        public static final int user=0x7f0a0002;
+        public static final int settings=0x7f0a0002;
+        public static final int user=0x7f0a0003;
     }
     public static final class string {
         public static final int action_back=0x7f06001e;
@@ -373,6 +353,7 @@ containing a value of this type.
         public static final int common_signin_button_text_long=0x7f060013;
         public static final int hello_world=0x7f06001d;
         public static final int title_activity_map=0x7f060020;
+        public static final int title_activity_settings=0x7f060021;
         public static final int title_activity_user=0x7f06001c;
     }
     public static final class style {

@@ -8,5 +8,6 @@
     <string name="action_back">Back</string>
     <string name="action_exit">Exit</string>
     <string name="title_activity_map">Map</string>
+    <string name="title_activity_settings">Settings</string>
 
 </resources>

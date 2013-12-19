@@ -45,13 +45,13 @@ public class MainActivity extends Activity {
 	}
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case android.R.id.home:
-			NavUtils.navigateUpFromSameTask(this);
-			return true;
 		case R.id.action_exit:
 			finish();
 			return true;
 		case R.id.action_settings:
+			Intent intent = new Intent(this, Settings.class);
+			startActivity(intent);
+			finish();
 			return true;
 		default:
 		return super.onOptionsItemSelected(item);
