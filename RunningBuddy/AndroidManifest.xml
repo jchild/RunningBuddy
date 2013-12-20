@@ -59,6 +59,10 @@
             android:name="com.example.runningbuddy.Map"
             android:label="@string/title_activity_map" >
         </activity>
+        <activity
+            android:name="com.example.runningbuddy.Settings"
+            android:label="@string/title_activity_settings" >
+        </activity>
         <!-- Google Maps API Key -->
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
@@ -67,10 +71,7 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity
-            android:name="com.example.runningbuddy.Settings"
-            android:label="@string/title_activity_settings" >
-        </activity>
+        
     </application>
 
 </manifest>
