@@ -1,6 +1,8 @@
 package com.example.runningbuddy;
 
 
+import java.util.Stack;
+
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
@@ -21,6 +23,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 public class Map extends FragmentActivity implements
 ConnectionCallbacks,
@@ -33,7 +37,8 @@ LocationListener {
 	            .setInterval(5000)         // 5 seconds
 	            .setFastestInterval(16)    // 16ms = 60fps
 	            .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
+	private Stack<LatLng> points = new Stack<LatLng>();
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -41,13 +46,34 @@ LocationListener {
 		startMap();
 	}
 	
-    //@Override
+    @Override
     public void onConnected(Bundle connectionHint) {
         LocationClient.requestLocationUpdates(
                 REQUEST,
                 this);  // LocationListener
+        Location location = LocationClient.getLastLocation();				
+		if(location == null){
+			Toast.makeText(getApplicationContext(), "location returned null" , Toast.LENGTH_SHORT).show();
+		}
+
+		LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
+		map.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation,15)); //keep zoom at 15
+		traceRoute();
     }
     
+    public void traceRoute(){
+    	Location location = LocationClient.getLastLocation();
+    	LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
+    	points.push(myLocation);
+    	drawRoute();
+    }
+    public void drawRoute(){
+    	PolylineOptions polylineOptions = new PolylineOptions();
+    	polylineOptions.addAll(points);
+    	Polyline route = map.addPolyline(polylineOptions);
+    	Toast.makeText(getApplicationContext(), "here", Toast.LENGTH_SHORT).show();
+    }
+  
     @Override
     public void onDisconnected() {
         // Do nothing
@@ -64,9 +90,9 @@ LocationListener {
 			else{
 				
 				map.setMyLocationEnabled(true);
-				Location location = LocationClient.getLastLocation();
-				LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
-				map.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation,16));
+				setUpLocationClient();
+				
+				
 			}
 		}
 	}
@@ -91,7 +117,7 @@ LocationListener {
     }
     @Override
 	public void onLocationChanged(Location location) {
-
+    	traceRoute();
 	}
     
     //Menu Items
@@ -120,6 +146,7 @@ LocationListener {
 		case R.id.back:
 			Intent i = new Intent(Map.this, MainActivity.class);
 			startActivity(i);
+			LocationClient.disconnect();
 			finish();
 			return true;
 		
@@ -127,7 +154,4 @@ LocationListener {
 		return super.onOptionsItemSelected(item);
 		}
 	}
-
-	
-
 }
