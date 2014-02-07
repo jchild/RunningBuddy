@@ -3,6 +3,8 @@ package com.example.runningbuddy;
 
 import java.util.Stack;
 
+
+
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
@@ -51,20 +53,28 @@ LocationListener {
         LocationClient.requestLocationUpdates(
                 REQUEST,
                 this);  // LocationListener
-        Location location = LocationClient.getLastLocation();				
-		if(location == null){
-			Toast.makeText(getApplicationContext(), "location returned null" , Toast.LENGTH_SHORT).show();
+        getLocation();
+      				
+		
+    }
+    public void getLocation(){
+    	Location location = LocationClient.getLastLocation();
+    	if(location == null){
+			Toast.makeText(getApplicationContext(), "getting locatoin" , Toast.LENGTH_SHORT).show();
+			getLocation();
 		}
-
-		LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
-		map.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation,15)); //keep zoom at 15
-		traceRoute();
+    	else{
+    		LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
+    		map.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation,15)); //keep zoom at 15
+    		traceRoute();
+    	} 
     }
     
     public void traceRoute(){
     	Location location = LocationClient.getLastLocation();
     	LatLng myLocation = new LatLng(location.getLatitude(), location.getLongitude());
     	points.push(myLocation);
+    	calcDistance();
     	drawRoute();
     }
     public void drawRoute(){
@@ -73,11 +83,11 @@ LocationListener {
     	Polyline route = map.addPolyline(polylineOptions);
     	Toast.makeText(getApplicationContext(), "here", Toast.LENGTH_SHORT).show();
     }
-  
-    @Override
-    public void onDisconnected() {
-        // Do nothing
+    public void calcDistance(){
+    	
     }
+  
+
     	
 	private void startMap(){
 		if(map == null){
@@ -109,15 +119,30 @@ LocationListener {
         startMap();
         setUpLocationClient();
         LocationClient.connect();
+        //need to redraw route user just ran
+    }
+    @Override
+    public void onDisconnected(){
+    	// prompted user GPS disconnected and trying to reconnect
+    	// repeat prompted every 20 seconds until connection reestablished 
+    }
+    @Override
+    public void onStop() {
+        // run background map collect
+    }
+    @Override
+    public void onDestroy(){
+    	//save map, return back to home screen
+    	finish();
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult result) {
-        // Do nothing
+        // prompted user service is temporary unavailable
     }
     @Override
 	public void onLocationChanged(Location location) {
-    	traceRoute();
+    	//traceRoute();
 	}
     
     //Menu Items
@@ -154,4 +179,6 @@ LocationListener {
 		return super.onOptionsItemSelected(item);
 		}
 	}
+
+	
 }

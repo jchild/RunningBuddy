@@ -3,7 +3,7 @@ package com.example.runningbuddy;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,12 +25,14 @@ public class MainActivity extends Activity {
 				if (position == 0){
 				Intent intent = new Intent(MainActivity.this, User.class);
 				startActivity(intent);
-				finish();
 				}
-				if(position == 1){
+				else if(position == 1){
 					Intent intent = new Intent(MainActivity.this, Map.class);
 					startActivity(intent);
-					finish();
+				}
+				else if(position == 2){
+					Intent intent = new Intent(MainActivity.this, PreviousRoutes.class);
+					startActivity(intent);
 				}
 			}
 		});
@@ -55,6 +57,17 @@ public class MainActivity extends Activity {
 		default:
 		return super.onOptionsItemSelected(item);
 		}
+	}
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event)  {	
+	   if ( keyCode == KeyEvent.KEYCODE_MENU ) {
+		   //override the menu key
+		   // perform your desired action here
+	       return true;
+	   }
+
+	   // let the system handle all other key events
+	   return super.onKeyDown(keyCode, event);
 	}
 	
 

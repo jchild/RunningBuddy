@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 public class ImageAdapter extends BaseAdapter{
 	
@@ -28,9 +29,10 @@ public class ImageAdapter extends BaseAdapter{
 		ImageView imageView;
 		if(convertView== null){
 			imageView = new ImageView(mContext);
-			imageView.setLayoutParams(new GridView.LayoutParams(400,400));
+			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+			imageView.setLayoutParams(new GridView.LayoutParams(params));
 			imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-			imageView.setPadding(8,8,8,8);
+			imageView.setPadding(16,16,16,16);
 		} else{
 			imageView = (ImageView) convertView;
 		}
@@ -39,7 +41,8 @@ public class ImageAdapter extends BaseAdapter{
 	}
 	
 	private Integer[] mThumbIds = {
-            R.drawable.ic_user, R.drawable.ic_map
+            R.drawable.ic_user, R.drawable.ic_map, R.drawable.ic_place
+           
     };
 	
 }

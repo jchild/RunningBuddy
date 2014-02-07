@@ -61,16 +61,26 @@
         </activity>
         <activity
             android:name="com.example.runningbuddy.Settings"
-            android:label="@string/title_activity_settings" >
+            android:label="@string/title_activity_settings"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <activity
+            android:name="com.example.runningbuddy.PreviousRoutes"
+            android:label="@string/title_activity_previous_routes"
+            android:theme="@style/AppTheme" >
         </activity>
         <!-- Google Maps API Key -->
-        <meta-data
+
+        <activity
+            android:name="com.example.runningbuddy.NewUser"
+            android:label="@string/title_activity_new_user" >
+        </activity>
+                <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyBCfLzefMsZCtOyLDhrU2iOku2l9mE0NUc" />
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
         
     </application>
 
