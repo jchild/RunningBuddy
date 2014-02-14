@@ -10,8 +10,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.Toast;
+
+import com.example.runningbuddy.users.User;
 
 public class MainActivity extends Activity {
+	private int exit = 1;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -60,10 +64,14 @@ public class MainActivity extends Activity {
 	}
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event)  {	
-	   if ( keyCode == KeyEvent.KEYCODE_MENU ) {
+	   //if ( keyCode == KeyEvent.KEYCODE_MENU ) {
 		   //override the menu key
 		   // perform your desired action here
-	       return true;
+	      // return true;
+	   //}
+	   if (keyCode == KeyEvent.KEYCODE_BACK){
+		   Toast.makeText(getApplicationContext(), "You pressed the Back Button",Toast.LENGTH_SHORT).show();
+		   return false;
 	   }
 
 	   // let the system handle all other key events

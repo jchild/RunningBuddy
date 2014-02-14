@@ -126,13 +126,14 @@ LocationListener {
     	// prompted user GPS disconnected and trying to reconnect
     	// repeat prompted every 20 seconds until connection reestablished 
     }
-    @Override
-    public void onStop() {
+    //@Override
+    //public void onStop() {
         // run background map collect
-    }
+   // }
     @Override
     public void onDestroy(){
     	//save map, return back to home screen
+    	super.onDestroy();
     	finish();
     }
 

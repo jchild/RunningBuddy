@@ -12,5 +12,8 @@
     <string name="title_activity_previous_routes">Previous Routes</string>
     <string name="title_activity_new_user">NewUser</string>
     <string name="button">Pause Button</string>
+    <string name="cancel">Cancel</string>
+    <string name="yes">Yes</string>
+    <string name="are_you_sure">Are you sure you want to quit?</string>
 
 </resources>

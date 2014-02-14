@@ -51,7 +51,7 @@
         </activity>
         <!-- User Activity -->
         <activity
-            android:name="com.example.runningbuddy.User"
+            android:name="com.example.runningbuddy.users.User"
             android:label="@string/title_activity_user"
             android:theme="@style/AppTheme" >
         </activity>
@@ -72,7 +72,7 @@
         <!-- Google Maps API Key -->
 
         <activity
-            android:name="com.example.runningbuddy.NewUser"
+            android:name="com.example.runningbuddy.users.NewUser"
             android:label="@string/title_activity_new_user" >
         </activity>
                 <meta-data
