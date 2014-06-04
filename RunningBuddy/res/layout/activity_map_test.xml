@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         class="com.google.android.gms.maps.SupportMapFragment" />
 
-       <Button
+     <!--   <Button
            android:id="@+id/pausebutton"
            style="?android:attr/buttonStyleSmall"
            android:layout_width="wrap_content"
@@ -43,6 +43,6 @@
            android:layout_toRightOf="@+id/dist"
            android:text=" km"
            android:textAppearance="?android:attr/textAppearanceLarge"
-           android:textColor="#ffffff" />
+           android:textColor="#ffffff" />-->
 
 </RelativeLayout>

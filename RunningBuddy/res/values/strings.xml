@@ -15,5 +15,6 @@
     <string name="cancel">Cancel</string>
     <string name="yes">Yes</string>
     <string name="are_you_sure">Are you sure you want to quit?</string>
+    <string name="title_activity_map_test">MapTest</string>
 
 </resources>

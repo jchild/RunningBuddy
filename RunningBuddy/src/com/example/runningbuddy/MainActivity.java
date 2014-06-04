@@ -3,7 +3,7 @@ package com.example.runningbuddy;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,10 +12,12 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.example.runningbuddy.maps.Map;
+import com.example.runningbuddy.maps.PreviousRoutes;
 import com.example.runningbuddy.users.User;
 
 public class MainActivity extends Activity {
-	private int exit = 1;
+	private boolean doubleBackToExitPressedOnce = false;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -31,7 +33,7 @@ public class MainActivity extends Activity {
 				startActivity(intent);
 				}
 				else if(position == 1){
-					Intent intent = new Intent(MainActivity.this, Map.class);
+					Intent intent = new Intent(MainActivity.this, MapTest.class);
 					startActivity(intent);
 				}
 				else if(position == 2){
@@ -62,21 +64,25 @@ public class MainActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 		}
 	}
+	
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event)  {	
-	   //if ( keyCode == KeyEvent.KEYCODE_MENU ) {
-		   //override the menu key
-		   // perform your desired action here
-	      // return true;
-	   //}
-	   if (keyCode == KeyEvent.KEYCODE_BACK){
-		   Toast.makeText(getApplicationContext(), "You pressed the Back Button",Toast.LENGTH_SHORT).show();
-		   return false;
-	   }
+	// have to press back button twice to exit
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+        new Handler().postDelayed(new Runnable() {
 
-	   // let the system handle all other key events
-	   return super.onKeyDown(keyCode, event);
-	}
+            @Override
+            public void run() {
+             doubleBackToExitPressedOnce=false;   
+
+            }
+        }, 2000);
+    } 
 	
 
 }
