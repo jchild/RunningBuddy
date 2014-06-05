@@ -1,3 +1,20 @@
+/*
+ * Map.java
+ * 
+ * Main map class that will track the users location
+ * and draw a route of where the user has been.
+ * 
+ * 
+ * TODO:
+ * -implement a pause button to pause the tracking of the user
+ * -save users routes
+ * -improve tracking system (still quite buggy)
+ * -implement more graceful way of exiting to main menu
+ * 
+ * 
+ * Author: Jonathan Child
+ */
+
 package com.example.runningbuddy.maps;
 
 
@@ -44,12 +61,12 @@ OnConnectionFailedListener,
 LocationListener {
 	
 	private GoogleMap map;
-	private LocationClient LocationClient;
+	private LocationClient mLocationClient;
 	private static final LocationRequest REQUEST = LocationRequest.create()
 	            .setInterval(5000)         // 5 seconds
 	            .setFastestInterval(16)    // 16ms = 60fps
 	            .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-	private Stack<LatLng> points = new Stack<LatLng>();
+	private Stack<LatLng> points = new Stack<LatLng>(); // an array of LatLng points that will be used to  redraw and save the route
 	private float distance = 0;
 	private Location location, prevLocation = null;
 	private Boolean paused = false;
@@ -78,14 +95,15 @@ LocationListener {
 	
     @Override
     public void onConnected(Bundle connectionHint) {
-        LocationClient.requestLocationUpdates(REQUEST,this);  // LocationListener
+        //Location listener, will listen for gps updates at the rate REQUEST is set at
+    	mLocationClient.requestLocationUpdates(REQUEST,this); 
         getFirstLocation();
       				
 		
     }
     
     public void getFirstLocation(){
-    	location = LocationClient.getLastLocation();
+    	location = mLocationClient.getLastLocation();
     	if(location == null){
 			Toast.makeText(getApplicationContext(), "getting location" , Toast.LENGTH_SHORT).show();
 			getFirstLocation();
@@ -141,31 +159,33 @@ LocationListener {
     
 
 	private void setUpLocationClient() {
-        if (LocationClient == null) {
-            LocationClient = new LocationClient(getApplicationContext(), this, this);
+        if (mLocationClient == null) {
+            mLocationClient = new LocationClient(getApplicationContext(), this, this);
         }
     }
 	@Override
 	protected void onStart(){
 		super.onStart();
 		startMap();
-		//TODO do something here
+		//TODO onStart event
 	}
 	@Override
 	protected void onStop(){
 		super.onStop();
-		//TODO do something here
+		//TODO onStop event
 	}
 	
     @Override
     protected void onResume() {
         super.onResume();
+        //TODO when user resumes need to reconnect the location client and location listener
         startMap();
     }
     @Override
     protected void onPause(){
     	super.onPause();
-    	LocationClient.disconnect();
+    	//TODO needs to disconnect location listener to stop listening for updates
+    	mLocationClient.disconnect();
     	
     }
     @Override
@@ -180,7 +200,7 @@ LocationListener {
     	//TODO
     	//save map, return back to home screen
     	super.onDestroy();
-    	LocationClient.disconnect();
+    	mLocationClient.disconnect();
     	finish();
     }
 
@@ -216,7 +236,7 @@ LocationListener {
 		case R.id.back:
 			Intent i = new Intent(Map.this, MainActivity.class);
 			startActivity(i);
-			LocationClient.disconnect();
+			mLocationClient.disconnect();
 			finish();
 			return true;
 		

@@ -1,3 +1,17 @@
+/*	MapTest.java
+ * 
+ * 	This is a test class to test out ideas for Map.java
+ * 	so you wont adversely affect the working code. Anything
+ * 	can be changed here to test new ideas. If you want to
+ * 	point the app to this page will need to change the pointer
+ * 	in MainActivity.java to point to MapTest.java instead of
+ * 	Map.java
+ * 
+ * 
+ */
+
+
+
 package com.example.runningbuddy;
 
 import com.google.android.gms.common.ConnectionResult;

@@ -1,3 +1,20 @@
+/*
+ * MainActivity.java
+ * 
+ * Main menu class. Users will be able to select from all the different
+ * pages from this main menu.
+ * 
+ * 
+ * TODO:
+ * -implement other buttons
+ * -action overflow menu on Samsung phones
+ * -look into better UI?
+ * -login page
+ * 
+ * 
+ * Author: Jonathan Child
+ */
+
 package com.example.runningbuddy;
 
 import android.app.Activity;
@@ -28,15 +45,15 @@ public class MainActivity extends Activity {
 		
 		gridview.setOnItemClickListener(new OnItemClickListener(){
 			public void onItemClick(AdapterView<?> parent, View v, int position, long id){
-				if (position == 0){
+				if (position == 0){//User button
 				Intent intent = new Intent(MainActivity.this, User.class);
 				startActivity(intent);
 				}
-				else if(position == 1){
-					Intent intent = new Intent(MainActivity.this, MapTest.class);
+				else if(position == 1){//Map Button
+					Intent intent = new Intent(MainActivity.this, Map.class); //change to MapTest if want to use that class
 					startActivity(intent);
 				}
-				else if(position == 2){
+				else if(position == 2){//Previous Routes Button
 					Intent intent = new Intent(MainActivity.this, PreviousRoutes.class);
 					startActivity(intent);
 				}
