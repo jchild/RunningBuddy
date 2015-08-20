@@ -1,8 +1,10 @@
 package com.childstudios.runningbuddy;
 
+
 import android.content.res.Configuration;
 import android.location.Location;
-import android.support.v4.app.FragmentActivity;
+import android.os.Handler;
+import android.speech.tts.TextToSpeech;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -10,6 +12,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -19,10 +22,10 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+
+
 
 public class HomeMap extends ActionBarActivity implements
         GoogleApiClient.ConnectionCallbacks,
@@ -34,7 +37,31 @@ public class HomeMap extends ActionBarActivity implements
     private ActionBarDrawerToggle toggle;
     private DrawerLayout drawerLayout;
     private Location currentLocation;
+    private Location oldLocation;
+    private float distance;
+    private boolean recording;
     private Boolean mRequestingLocationUpdates;
+    private TextToSpeech mTTS;
+
+    TextView dist;
+    TextView timer;
+    long startTime;
+    Handler timerHandler = new Handler();
+    Runnable timerRunnable = new Runnable() {
+        @Override
+        public void run() {
+            long milis = System.currentTimeMillis() - startTime;
+            int seconds = (int) (milis / 1000);
+            int minutes = seconds / 60;
+            int hours = minutes/60;
+            seconds = seconds % 60;
+
+            timer.setText(String.format("%d:%d:%02d",hours,minutes,seconds));
+
+            timerHandler.postDelayed(this, 500);
+
+        }
+    };
 
 
     private static final LocationRequest REQUEST = LocationRequest.create()
@@ -46,7 +73,7 @@ public class HomeMap extends ActionBarActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_map);
-
+        recording = false;
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API)
                 .addConnectionCallbacks(this)
@@ -55,12 +82,20 @@ public class HomeMap extends ActionBarActivity implements
 
         setUpMapIfNeeded();
 
+
+
+        dist = (TextView) findViewById(R.id.distance);
+        timer = (TextView) findViewById(R.id.time);
+
+        dist.setText(String.valueOf(distance));
+
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         setupDrawer();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
     }
+
 
     /************************* map stuff **********************/
 
@@ -86,7 +121,7 @@ public class HomeMap extends ActionBarActivity implements
     }
     @Override
     public void onConnected(Bundle connectionHint) {
-        getLocation();
+        StartLocation();
         startLocationUpdates();
     }
 
@@ -120,23 +155,33 @@ public class HomeMap extends ActionBarActivity implements
         mMap.setMyLocationEnabled(true);
     }
 
-    public void getLocation(){
+    public void StartLocation(){
         currentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
         if(currentLocation == null){
             Toast.makeText(getApplicationContext(), "getting location", Toast.LENGTH_SHORT).show();
-            getLocation();
+            StartLocation();
         }
         else{
             LatLng myLoc = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLoc,16));
+            oldLocation = currentLocation;
         }
 
     }
 
     @Override
     public void onLocationChanged(Location location) {
-        getLocation();
+
+
+        if(location != null && recording == true){
+            LatLng myLoc = new LatLng(location.getLatitude(),location.getLongitude());
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLoc,16));
+            distance += oldLocation.distanceTo(location);
+            dist.setText(String.valueOf(distance));
+            oldLocation = location;
+        }
+
     }
     @Override
     public void onConnectionSuspended(int cause) {
@@ -149,7 +194,11 @@ public class HomeMap extends ActionBarActivity implements
 
     public void startRecord(View view){
         Toast.makeText(getApplicationContext(), "Starting run", Toast.LENGTH_SHORT).show();
-        getLocation();
+        recording = true;
+        distance = 0;
+        StartLocation();
+        startTime = System.currentTimeMillis();
+        timerHandler.postDelayed(timerRunnable, 0);
 
         Button start = (Button) findViewById(R.id.startRun);
         Button stop = (Button) findViewById(R.id.stopRun);
@@ -159,7 +208,9 @@ public class HomeMap extends ActionBarActivity implements
 
     public void stopRecord(View view){
         Toast.makeText(getApplicationContext(), "Stopping run", Toast.LENGTH_SHORT).show();
-        getLocation();
+
+        recording = false;
+        timerHandler.removeCallbacks(timerRunnable);
 
         Button start = (Button) findViewById(R.id.startRun);
         Button stop = (Button) findViewById(R.id.stopRun);
